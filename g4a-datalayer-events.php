@@ -179,7 +179,7 @@ class Datalayer {
                         let itemId      = <?= $product->get_id() ?>;
                         let itemSku     = <?= '"' . $product->get_sku()  . '"'; ?>;
                         let itemName    = <?= '"' . $product->get_name()  . '"'; ?>;
-                        let price = parseFloat(document.querySelector(".price").firstChild.innerText.replace('€', '').replace(',', '.'));
+                        let price = parseFloat(document.querySelector(".price").firstChild.innerText.replace('€', '').replace(',', ''));
                         let input = document.querySelector("input[name='quantity']");
                         let woodType1 = document.getElementById("uni_cpo_madera_kaffi-field");
                         let woodType2 = document.getElementById("uni_cpo_madera_plain-field");
@@ -335,7 +335,7 @@ class Datalayer {
                                 item_category4: item_category[3],
                                 item_category5: item_category[4],
                                 item_variant: null,
-                                price: parseFloat(product.querySelector('.price').innerHTML.replace('€', '').replace(',', '')),
+                                price: parseFloat(product.querySelector('.price').innerText.replace('€', '').replace(',', '')),
                                 quantity: 1
                             });
                         }
@@ -508,7 +508,7 @@ class Datalayer {
                                     acabado_patas: "",
                                     acabado_metal: "",
                                     item_variant: null,
-                                    price: parseFloat(price.innerText.replace('€','').replace(',','.').trim()),
+                                    price: parseFloat(price.innerText.replace('€','').replace(',','').trim()),
                                     quantity: parseInt(quantity.value),
                                 });
                             }
@@ -653,7 +653,7 @@ class Datalayer {
                                     acabado_patas: "",
                                     acabado_metal: "",
                                     item_variant: null,
-                                    price: parseFloat(price.innerText.replace('€','').replace(',','.').trim()),
+                                    price: parseFloat(price.innerText.replace('€','').replace(',','').trim()),
                                     quantity: parseInt(quantity.innerHTML.replace('×', '').replace('&nbsp;', '')),
                                 });
                             }
@@ -796,7 +796,7 @@ class Datalayer {
                                     acabado_patas: "",
                                     acabado_metal: "",
                                     item_variant: null,
-                                    price: parseFloat(price.innerText.replace('€','').replace(',','.').trim()),
+                                    price: parseFloat(price.innerText.replace('€','').replace(',','').trim()),
                                     quantity: parseInt(quantity.innerHTML.replace('×', '').replace('&nbsp;', '')),
                                 });
                             }
