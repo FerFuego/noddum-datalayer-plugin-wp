@@ -733,75 +733,92 @@ class Datalayer {
 
                     // Push into DataLayer Items
                     function getIdsRecursive(products, items = []) {    
-                            let i = 0;
-                            for (let product of products) {
+                        let i = 0;
+                        for (let product of products) {
 
-                                let itemId = prod_list[i]['product_id'];
-                                let itemName = prod_list[i]['product_name'];
-                                let woodType = product.querySelector('dd.variation-Tipodemadera');
-                                let long = product.querySelector('dd.variation-Largo');
-                                let price = product.querySelector('.amount bdi');
-                                let quantity = product.querySelector('.product-quantity');
-                                let background = product.querySelector('dd.variation-Fondo');
-                                let grosor = product.querySelector('dd.variation-Grosor');
-                                let texture = product.querySelector('dd.variation-Texturadelamadera');
-                                let fijacion = product.querySelector('dd.variation-Sistemadefijacin');
-                                let canto = product.querySelector('dd.variation-Canto');
-                                let cantoM = product.querySelector('dd.variation-Cantodelamesa');
-                                let hight = product.querySelector('dd.variation-Alto');
-                                let ancho = product.querySelector('dd.variation-Ancho');
-                                let diameter = product.querySelector('dd.variation-Dimetro');
-                                let finishBase = product.querySelector('dd.variation-Acabadodelabase');
-                                let consoleHight = product.querySelector('dd.variation-Altodelaconsola');
-                                let blandas = product.querySelector('dd.variation-Nmerodebaldas');
-                                let item_category = prod_list[i]['product_category'][0];
-                                let item_category2 = prod_list[i]['product_category'][1];
-                                let item_category3 = prod_list[i]['product_category'][2];
-                                let item_category4 = prod_list[i]['product_category'][3];
-                                let item_category5 = prod_list[i]['product_category'][4];
+                            let itemId = prod_list[i]['product_id'];
+                            let itemName = prod_list[i]['product_name'];
+                            let woodType = product.querySelector('dd.variation-Tipodemadera');
+                            let long = product.querySelector('dd.variation-Largo');
+                            let price = product.querySelector('.amount bdi');
+                            let quantity = product.querySelector('.product-quantity');
+                            let background = product.querySelector('dd.variation-Fondo');
+                            let grosor = product.querySelector('dd.variation-Grosor');
+                            let texture = product.querySelector('dd.variation-Texturadelamadera');
+                            let fijacion = product.querySelector('dd.variation-Sistemadefijacin');
+                            let canto = product.querySelector('dd.variation-Canto');
+                            let cantoM = product.querySelector('dd.variation-Cantodelamesa');
+                            let hight = product.querySelector('dd.variation-Alto');
+                            let ancho = product.querySelector('dd.variation-Ancho');
+                            let diameter = product.querySelector('dd.variation-Dimetro');
+                            let finishBase = product.querySelector('dd.variation-Acabadodelabase');
+                            let consoleHight = product.querySelector('dd.variation-Altodelaconsola');
+                            let blandas = product.querySelector('dd.variation-Nmerodebaldas');
+                            let item_category = prod_list[i]['product_category'][0];
+                            let item_category2 = prod_list[i]['product_category'][1];
+                            let item_category3 = prod_list[i]['product_category'][2];
+                            let item_category4 = prod_list[i]['product_category'][3];
+                            let item_category5 = prod_list[i]['product_category'][4];
+                            let item_data = product.querySelectorAll('.wc-item-meta li');
+                            let meta_data = [];
+                            for (let item of item_data) {
+                                item = item.innerText.replace(':','');
+                                let parts = item.split('\n');
+                                // delete empty element from array javascript
+                                parts = parts.filter(function(part) {
+                                    return part !== '';
+                                });
+                                meta_data.push( { key: parts[0].toLowerCase().replace(' de', '').replace(' la', '').replace(' ', '_').trim(), value: parts[1] } );
+                            }
 
-                                items.push( {
-                                    index: i++,
-                                    item_id: itemId,
-                                    item_sku: null,
-                                    item_name: itemName,
-                                    currency: "EUR",
-                                    item_brand: "noddum",
-                                    item_category:  item_category,
-                                    item_category2: item_category2,
-                                    item_category3: item_category3,
-                                    item_category4: item_category4,
-                                    item_category5: item_category5,
-                                    item_list_id:   item_category + ' ' + item_category2,
-                                    item_list_name: item_category + ' ' + item_category2,
-                                    grosor: grosor ? grosor.innerText : null,
-                                    baldas: blandas ? blandas.innerText : null,
-                                    baldas_material: texture ? texture.innerText : null,
-                                    fijacion: fijacion ? fijacion.innerText : null,
-                                    alto_consola: consoleHight ? consoleHight.innerText : null,
-                                    numero_baldas: "",
-                                    ancho: ancho ? ancho.innerText : null,
-                                    diametro: diameter ? diameter.innerText : null,
-                                    grosor_madera: "",
-                                    canto: canto ? canto.innerText : cantoM ? cantoM.innerText : null,
-                                    alto: hight ? hight.innerText : null,
-                                    fondo: background ? background.innerText : null,
-                                    largo: long ? long.innerText : null,
-                                    textura: texture ? texture.innerText : null,
-                                    tipo_pared: "",
-                                    tipo_madera: woodType ? woodType.innerText : null,
-                                    acabado_madera: "",
-                                    lado: "",
-                                    acabado_base: finishBase ? finishBase.innerText : null,
-                                    acabado_patas: "",
-                                    acabado_metal: "",
-                                    item_variant: null,
-                                    price: parseFloat(price.innerText.replace('€','').replace(',','').trim()),
-                                    quantity: parseInt(quantity.innerHTML.replace('×', '').replace('&nbsp;', '')),
+                            function getMeta(key) {
+                                return meta_data.find(function(meta) {
+                                    return meta.key === key;
                                 });
                             }
-                            return items;
+
+                            items.push( {
+                                index: i++,
+                                item_id: itemId,
+                                item_sku: null,
+                                item_name: itemName,
+                                currency: "EUR",
+                                item_brand: "noddum",
+                                item_category:  item_category,
+                                item_category2: item_category2,
+                                item_category3: item_category3,
+                                item_category4: item_category4,
+                                item_category5: item_category5,
+                                item_list_id:   item_category + ' ' + item_category2,
+                                item_list_name: item_category + ' ' + item_category2,
+                                grosor: grosor ? grosor.innerText : getMeta('grosor') ? getMeta('grosor').value : null,
+                                baldas: blandas ? blandas.innerText : getMeta('baldas') ? getMeta('baldas').value : null,
+                                baldas_material: texture ? texture.innerText : getMeta('baldas_material') ? getMeta('baldas_material').value : null,
+                                fijacion: fijacion ? fijacion.innerText : getMeta('sistema_fijación') ? getMeta('sistema_fijación').value : null,
+                                alto_consola: consoleHight ? consoleHight.innerText : null,
+                                numero_baldas: getMeta('numero_baldas') ? getMeta('numero_baldas').value : null,
+                                ancho: ancho ? ancho.innerText : getMeta('ancho') ? getMeta('ancho').value : null,
+                                diametro: diameter ? diameter.innerText : getMeta('diámetro') ? getMeta('diámetro').value : null,
+                                grosor_madera: getMeta('grosor') ? getMeta('grosor').value : null,
+                                canto: canto ? canto.innerText : cantoM ? cantoM.innerText : getMeta('canto') ? getMeta('canto').value : null,
+                                alto: hight ? hight.innerText : getMeta('alto') ? getMeta('alto').value : null,
+                                fondo: background ? background.innerText : getMeta('fondo') ? getMeta('fondo').value : null,
+                                largo: long ? long.innerText : getMeta('largo') ? getMeta('largo').value : null,
+                                textura: texture ? texture.innerText : getMeta('textura_madera') ? getMeta('textura_madera').value : null,
+                                tipo_pared: "",
+                                tipo_madera: woodType ? woodType.innerText : getMeta('tipo_madera') ? getMeta('tipo_madera').value : null,
+                                acabado_madera: getMeta('acabado_madera') ? getMeta('acabado_madera').value : null,
+                                lado: getMeta('lado') ? getMeta('lado').value : null,
+                                acabado_base: finishBase ? finishBase.innerText : null,
+                                acabado_patas: getMeta('pata') ? getMeta('pata').value : null,
+                                acabado_metal: getMeta('metal') ? getMeta('metal').value : null,
+                                item_variant: null,
+                                price: parseFloat(price.innerText.replace('€','').replace(',','').trim()),
+                                quantity: parseInt(quantity.innerHTML.replace('×', '').replace('&nbsp;', '')),
+                            });
                         }
+                        return items;
+                    }
 
                 });
 
