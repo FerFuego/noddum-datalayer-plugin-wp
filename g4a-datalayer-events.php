@@ -48,7 +48,7 @@ class Datalayer {
                         product.addEventListener('click', function() {
                             dataLayer.push({ ecommerce: null });
                             dataLayer.push({
-                                event: "select_item",
+                                event: "select_item_list",
                                 ecommerce: {
                                     currency: "EUR",
                                     item_list_name: moduleName,
@@ -80,7 +80,7 @@ class Datalayer {
                         product.addEventListener('click', function() {
                             dataLayer.push({ ecommerce: null });
                             dataLayer.push({
-                                event: "select_item",
+                                event: "select_item_list",
                                 ecommerce: {
                                     currency: "EUR",
                                     item_list_name: moduleName2,
@@ -514,7 +514,6 @@ class Datalayer {
                             }
                             return items;
                         }
-
                     });
                 </script>
             
@@ -597,7 +596,7 @@ class Datalayer {
                                 let itemName = prod_list[i]['product_name'];
                                 let woodType = product.querySelector('dd.variation-Tipodemadera');
                                 let long = product.querySelector('dd.variation-Largo');
-                                let price = product.querySelector('.amount bdi');
+                                let price = product.querySelector('small .amount bdi');
                                 let quantity = product.querySelector('.product-quantity');
                                 let background = product.querySelector('dd.variation-Fondo');
                                 let grosor = product.querySelector('dd.variation-Grosor');
@@ -611,6 +610,7 @@ class Datalayer {
                                 let finishBase = product.querySelector('dd.variation-Acabadodelabase');
                                 let consoleHight = product.querySelector('dd.variation-Altodelaconsola');
                                 let blandas = product.querySelector('dd.variation-Nmerodebaldas');
+                                let Acabadodelmetal = product.querySelector('dd.variation-Acabadodelmetal');
                                 let item_category = prod_list[i]['product_category'][0];
                                 let item_category2 = prod_list[i]['product_category'][1];
                                 let item_category3 = prod_list[i]['product_category'][2];
@@ -651,7 +651,7 @@ class Datalayer {
                                     lado: "",
                                     acabado_base: finishBase ? finishBase.innerText : null,
                                     acabado_patas: "",
-                                    acabado_metal: "",
+                                    acabado_metal: Acabadodelmetal ? Acabadodelmetal.innerText : null,
                                     item_variant: null,
                                     price: parseFloat(price.innerText.replace('€','').replace(',','').trim()),
                                     quantity: parseInt(quantity.innerHTML.replace('×', '').replace('&nbsp;', '')),
@@ -740,7 +740,7 @@ class Datalayer {
                             let itemName = prod_list[i]['product_name'];
                             let woodType = product.querySelector('dd.variation-Tipodemadera');
                             let long = product.querySelector('dd.variation-Largo');
-                            let price = product.querySelector('.amount bdi');
+                            let price = product.querySelector('small .amount bdi');
                             let quantity = product.querySelector('.product-quantity');
                             let background = product.querySelector('dd.variation-Fondo');
                             let grosor = product.querySelector('dd.variation-Grosor');
@@ -768,7 +768,7 @@ class Datalayer {
                                 parts = parts.filter(function(part) {
                                     return part !== '';
                                 });
-                                meta_data.push( { key: parts[0].toLowerCase().replace(' de', '').replace(' la', '').replace(' ', '_').trim(), value: parts[1] } );
+                                meta_data.push( { key: parts[0].toLowerCase().replace(' del', '').replace(' de', '').replace(' la', '').replace(' ', '_').trim(), value: parts[1] } );
                             }
 
                             function getMeta(key) {
@@ -810,8 +810,8 @@ class Datalayer {
                                 acabado_madera: getMeta('acabado_madera') ? getMeta('acabado_madera').value : null,
                                 lado: getMeta('lado') ? getMeta('lado').value : null,
                                 acabado_base: finishBase ? finishBase.innerText : null,
-                                acabado_patas: getMeta('pata') ? getMeta('pata').value : null,
-                                acabado_metal: getMeta('metal') ? getMeta('metal').value : null,
+                                acabado_patas: getMeta('pata') ? getMeta('pata').value : getMeta('acabado_patas') ? getMeta('acabado_patas').value : null,
+                                acabado_metal: getMeta('metal') ? getMeta('metal').value : getMeta('acabado_metal') ? getMeta('acabado_metal').value : null,
                                 item_variant: null,
                                 price: parseFloat(price.innerText.replace('€','').replace(',','').trim()),
                                 quantity: parseInt(quantity.innerHTML.replace('×', '').replace('&nbsp;', '')),
@@ -819,7 +819,6 @@ class Datalayer {
                         }
                         return items;
                     }
-
                 });
 
             </script>
