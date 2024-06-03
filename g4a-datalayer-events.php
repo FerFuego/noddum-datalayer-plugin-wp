@@ -90,6 +90,7 @@ class Datalayer {
                             });
                         });
                     });
+
                     
 
                     // Push into DataLayer Items
@@ -157,20 +158,19 @@ class Datalayer {
                                 item_name: itemName,
                                 currency: "EUR",
                                 item_brand: "noddum",
-                                item_category: item_category[0],
-                                item_category2: item_category[1],
-                                item_category3: item_category[2],
-                                item_category4: item_category[3],
-                                item_category5: item_category[4],
+                                item_category1: obtenerPadresDeElemento(item_category[0]),
+                                item_category2: item_category[1] ? obtenerPadresDeElemento(item_category[1]) : item_category[0],
+                                item_category3: item_category[2] ? item_category[2].toLowerCase() : null,
                                 index: 0,
-                                item_list_id: item_category[0].replace('-',' ') + ' ' + item_category[1],
-                                item_list_name: item_category[0].replace('-',' ') + ' ' + item_category[1],
+                                item_list_id: item_category[0].replace('-',' ') + (item_category[1] ? ' ' + item_category[1].toLowerCase() : ''),
+                                item_list_name: item_category[0].replace('-',' ') + (item_category[1] ? ' ' + item_category[1].toLowerCase() : ''),
                                 item_variant: null,
                                 price: price,
                                 quantity: 1
                             }]
                         }
                     });
+
 
                     // On add to cart
                     var btnAddToCart = document.querySelector(".single_add_to_cart_button");
@@ -233,13 +233,11 @@ class Datalayer {
                                         item_name: itemName,
                                         currency: "EUR",
                                         item_brand: "noddum",
-                                        item_category:  item_category[0].toLowerCase(),
-                                        item_category2: item_category[1].toLowerCase(),
-                                        item_category3: item_category[2].toLowerCase(),
-                                        item_category4: item_category[3].toLowerCase(),
-                                        item_category5: item_category[4].toLowerCase(),
-                                        item_list_id:   item_category[0].replace('-',' ').toLowerCase() + ' ' + item_category[1].toLowerCase(),
-                                        item_list_name: item_category[0].replace('-',' ').toLowerCase() + ' ' + item_category[1].toLowerCase(),
+                                        item_category1: obtenerPadresDeElemento(item_category[0]),
+                                        item_category2: obtenerPadresDeElemento(item_category[1]),
+                                        item_category3: item_category[2] ? item_category[2].toLowerCase() : null,
+                                        item_list_id:   item_category[0].replace('-',' ').toLowerCase() (item_category[1] ? ' ' + item_category[1].toLowerCase() : ''),
+                                        item_list_name: item_category[0].replace('-',' ').toLowerCase() (item_category[1] ? ' ' + item_category[1].toLowerCase() : ''),
                                         grosor: "",
                                         baldas: shelves ? shelves.value : null,
                                         baldas_material: shelvesType ? shelvesType.value.toLowerCase() : null,
@@ -269,6 +267,66 @@ class Datalayer {
                             });
                         }
                     });
+
+                    // Crash Categories
+                    function obtenerPadresDeElemento(elemento) {
+                        switch ( elemento ) {
+                            case 'mesas-comedor':
+                                return 'mesas';
+                            case 'mesas-centro':
+                                return 'mesas';
+                            case 'mesas-auxiliares':
+                                return 'mesas';
+
+                            case 'grandes':
+                                return 'mesas-comedor';
+                            case 'pequeñas':
+                                return 'mesas-comedor';
+                            case 'cuadradas':
+                                return 'mesas-comedor';
+                            case 'redondas':
+                                return 'mesas-comedor';
+                            case 'madera':
+                                return 'mesas-comedor';
+                            case 'modernas':
+                                return 'mesas-comedor';
+                            case 'rusticas':
+                                return 'mesas-comedor';
+                            case 'ovaladas':
+                                return 'mesas-comedor';
+                            case 'extensibles':
+                                return 'mesas-comedor';
+                            case 'industriales':
+                                return 'mesas-comedor';
+                            case 'rectangulares':
+                                return 'mesas-comedor';
+                            case 'mesas-de-comedor-de-diseno':
+                                return 'mesas-comedor';
+
+                            case 'blandas-y-estanterias':
+                                return 'blandas-y-estanterias';
+                            case 'baldas-y-estantes-de-pared':
+                                return 'blandas-y-estanterias';
+                            case 'librerias-y-estanterias':
+                                return 'blandas-y-estanterias';
+                            case 'consolas':
+                                return 'blandas-y-estanterias';
+                            
+                            case 'auxiliar':
+                                return 'auxiliar';
+                            case 'muebles-tv':
+                                return 'auxiliar';
+                            case 'muebles-auxiliares':
+                                return 'auxiliar';
+                            case 'espejos':
+                                return 'auxiliar';
+
+                            case 'bancos':
+                                return 'bancos';
+                            default:
+                                return elemento;
+                        }
+                    }
                 });
             </script>
 
@@ -313,7 +371,41 @@ class Datalayer {
                     });
 
                     // Push into DataLayer Items
-                    function getIdsRecursive(products, items = []) {    
+                    function getIdsRecursive(products, items = []) {  
+                        
+                        const categTree = {
+                            'mesas': {
+                                'mesas-comedor': [
+                                    'grandes',
+                                    'pequeñas',
+                                    'cuadradas',
+                                    'redondas',
+                                    'madera',
+                                    'modernas',
+                                    'rusticas',
+                                    'ovaladas',
+                                    'extensibles',
+                                    'industriales',
+                                    'rectangulares',
+                                    'mesas-de-comedor-de-diseno'
+                                ],
+                                'mesas-centro':[],
+                                'mesas-auxiliares':[]
+                            },
+                            'blandas-y-estanterias' : [
+                                'baldas-y-estantes-de-pared',
+                                'muebles-auxiliares',
+                                'librerias-y-estanterias',
+                                'consolas'
+                            ],
+                            'auxiliar' : [
+                                'muebles-tv',
+                                'muebles-auxiliares',
+                                'espejos'
+                            ],
+                            'bancos':[]
+                        };
+
                         for (let product of products) {
 
                             let cats = product.classList;
@@ -331,17 +423,75 @@ class Datalayer {
                                 index: jQuery(product).index(),
                                 item_name: product.querySelector('h2.woocommerce-loop-product__title').innerHTML.toLowerCase(),
                                 item_brand: "noddum",
-                                item_category: item_category[0],
-                                item_category2: item_category[1],
-                                item_category3: item_category[2],
-                                item_category4: item_category[3],
-                                item_category5: item_category[4],
+                                item_category1: obtenerPadresDeElemento(item_category[0]),
+                                item_category2: item_category[1] ? obtenerPadresDeElemento(item_category[1]) : item_category[0].toLowerCase(),
+                                item_category3: item_category[2] ? item_category[2].toLowerCase() : '',
                                 item_variant: null,
                                 price: parseFloat(product.querySelector('.price').innerText.replace('€', '').replace(',', '')),
                                 quantity: 1
                             });
                         }
                         return items;
+                    }
+
+                    function obtenerPadresDeElemento(elemento) {
+
+                        switch ( elemento ) {
+                            case 'mesas-comedor':
+                                return 'mesas';
+                            case 'mesas-centro':
+                                return 'mesas';
+                            case 'mesas-auxiliares':
+                                return 'mesas';
+
+                            case 'grandes':
+                                return 'mesas-comedor';
+                            case 'pequeñas':
+                                return 'mesas-comedor';
+                            case 'cuadradas':
+                                return 'mesas-comedor';
+                            case 'redondas':
+                                return 'mesas-comedor';
+                            case 'madera':
+                                return 'mesas-comedor';
+                            case 'modernas':
+                                return 'mesas-comedor';
+                            case 'rusticas':
+                                return 'mesas-comedor';
+                            case 'ovaladas':
+                                return 'mesas-comedor';
+                            case 'extensibles':
+                                return 'mesas-comedor';
+                            case 'industriales':
+                                return 'mesas-comedor';
+                            case 'rectangulares':
+                                return 'mesas-comedor';
+                            case 'mesas-de-comedor-de-diseno':
+                                return 'mesas-comedor';
+
+                            case 'blandas-y-estanterias':
+                                return 'blandas-y-estanterias';
+                            case 'baldas-y-estantes-de-pared':
+                                return 'blandas-y-estanterias';
+                            case 'librerias-y-estanterias':
+                                return 'blandas-y-estanterias';
+                            case 'consolas':
+                                return 'blandas-y-estanterias';
+                            
+                            case 'auxiliar':
+                                return 'auxiliar';
+                            case 'muebles-tv':
+                                return 'auxiliar';
+                            case 'muebles-auxiliares':
+                                return 'auxiliar';
+                            case 'espejos':
+                                return 'auxiliar';
+
+                            case 'bancos':
+                                return 'bancos';
+                            default:
+                                return elemento;
+                        }
                     }
                 });
             </script>
@@ -468,11 +618,9 @@ class Datalayer {
                                 let finishBase = product.querySelector('dd.variation-Acabadodelabase');
                                 let consoleHight = product.querySelector('dd.variation-Altodelaconsola');
                                 let blandas = product.querySelector('dd.variation-Nmerodebaldas');
-                                let item_category  = prod_list[i]['product_category'][0].toLowerCase().trim();
-                                let item_category2 = prod_list[i]['product_category'][1].toLowerCase().trim();
-                                let item_category3 = prod_list[i]['product_category'][2].toLowerCase().trim();
-                                let item_category4 = prod_list[i]['product_category'][3].toLowerCase().trim();
-                                let item_category5 = prod_list[i]['product_category'][4].toLowerCase().trim();
+                                let item_category1  = prod_list[i]['product_category'][0].toLowerCase().trim();
+                                let item_category2 = prod_list[i]['product_category'][1] ? prod_list[i]['product_category'][1].toLowerCase().trim() : null;
+                                let item_category3 = prod_list[i]['product_category'][2] ? prod_list[i]['product_category'][2].toLowerCase().trim() : null;
 
                                 items.push( {
                                     index: i++,
@@ -481,13 +629,11 @@ class Datalayer {
                                     item_name: itemName.innerText.toLowerCase(),
                                     currency: "EUR",
                                     item_brand: "noddum",
-                                    item_category:  item_category,
+                                    item_category:  item_category1,
                                     item_category2: item_category2,
                                     item_category3: item_category3,
-                                    item_category4: item_category4,
-                                    item_category5: item_category5,
-                                    item_list_id:   item_category + ' ' + item_category2,
-                                    item_list_name: item_category + ' ' + item_category2,
+                                    item_list_id:   item_category1 + ' ' + item_category2,
+                                    item_list_name: item_category1 + ' ' + item_category2,
                                     grosor: grosor ? grosor.innerText : null,
                                     baldas: blandas ? blandas.innerText.toLowerCase() : null,
                                     baldas_material: texture ? texture.innerText.toLowerCase() : null,
@@ -613,11 +759,9 @@ class Datalayer {
                                 let consoleHight = product.querySelector('dd.variation-Altodelaconsola');
                                 let blandas = product.querySelector('dd.variation-Nmerodebaldas');
                                 let Acabadodelmetal = product.querySelector('dd.variation-Acabadodelmetal');
-                                let item_category = prod_list[i]['product_category'][0].toLowerCase().trim();
-                                let item_category2 = prod_list[i]['product_category'][1].toLowerCase().trim();
-                                let item_category3 = prod_list[i]['product_category'][2].toLowerCase().trim();
-                                let item_category4 = prod_list[i]['product_category'][3].toLowerCase().trim();
-                                let item_category5 = prod_list[i]['product_category'][4].toLowerCase().trim();
+                                let item_category1 = prod_list[i]['product_category'][0].toLowerCase().trim();
+                                let item_category2 = prod_list[i]['product_category'][1] ? prod_list[i]['product_category'][1].toLowerCase().trim() : null;
+                                let item_category3 = prod_list[i]['product_category'][2] ? prod_list[i]['product_category'][2].toLowerCase().trim() : null;
 
                                 items.push( {
                                     index: i++,
@@ -626,13 +770,11 @@ class Datalayer {
                                     item_name: itemName,
                                     currency: "EUR",
                                     item_brand: "noddum",
-                                    item_category:  item_category,
+                                    item_category:  item_category1,
                                     item_category2: item_category2,
                                     item_category3: item_category3,
-                                    item_category4: item_category4,
-                                    item_category5: item_category5,
-                                    item_list_id:   item_category + ' ' + item_category2,
-                                    item_list_name: item_category + ' ' + item_category2,
+                                    item_list_id:   item_category1 + ' ' + item_category2,
+                                    item_list_name: item_category1 + ' ' + item_category2,
                                     grosor: grosor ? grosor.innerText : null,
                                     baldas: blandas ? blandas.innerText.toLowerCase() : null,
                                     baldas_material: texture ? texture.innerText.toLowerCase() : null,
@@ -756,11 +898,9 @@ class Datalayer {
                             let finishBase = product.querySelector('dd.variation-Acabadodelabase');
                             let consoleHight = product.querySelector('dd.variation-Altodelaconsola');
                             let blandas = product.querySelector('dd.variation-Nmerodebaldas');
-                            let item_category = prod_list[i]['product_category'][0].toLowerCase().trim();
-                            let item_category2 = prod_list[i]['product_category'][1].toLowerCase().trim();
-                            let item_category3 = prod_list[i]['product_category'][2].toLowerCase().trim();
-                            let item_category4 = prod_list[i]['product_category'][3].toLowerCase().trim();
-                            let item_category5 = prod_list[i]['product_category'][4].toLowerCase().trim();
+                            let item_category1 = prod_list[i]['product_category'][0].toLowerCase().trim();
+                            let item_category2 = prod_list[i]['product_category'][1] ? prod_list[i]['product_category'][1].toLowerCase().trim() : null;
+                            let item_category3 = prod_list[i]['product_category'][2] ? prod_list[i]['product_category'][2].toLowerCase().trim() : null;
                             let item_data = product.querySelectorAll('.wc-item-meta li');
                             let meta_data = [];
                             for (let item of item_data) {
@@ -786,13 +926,11 @@ class Datalayer {
                                 item_name: itemName,
                                 currency: "EUR",
                                 item_brand: "noddum",
-                                item_category:  item_category,
+                                item_category:  item_category1,
                                 item_category2: item_category2,
                                 item_category3: item_category3,
-                                item_category4: item_category4,
-                                item_category5: item_category5,
-                                item_list_id:   item_category + ' ' + item_category2,
-                                item_list_name: item_category + ' ' + item_category2,
+                                item_list_id:   item_category1 + ' ' + item_category2,
+                                item_list_name: item_category1 + ' ' + item_category2,
                                 grosor: grosor ? grosor.innerText : getMeta('grosor') ? getMeta('grosor').value : null,
                                 baldas: blandas ? blandas.innerText.toLowerCase() : getMeta('baldas') ? getMeta('baldas').value.toLowerCase() : null,
                                 baldas_material: texture ? texture.innerText.toLowerCase() : getMeta('baldas_material') ? getMeta('baldas_material').value.toLowerCase() : null,
